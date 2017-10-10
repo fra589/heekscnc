@@ -2,7 +2,6 @@ project( libheekscnc )
 
 cmake_minimum_required( VERSION 2.6 )
 
-set ( CMAKE_BUILD_TYPE Debug )
 add_definitions ( -Wall -DHEEKSPLUGIN -DHEEKSCNC -DUNICODE -DTIXML_USE_STL
                   -DOPEN_SOURCE_GEOMETRY -DWXUSINGDLL )
 find_package( wxWidgets REQUIRED COMPONENTS base core gl )
@@ -94,7 +93,7 @@ set( heekscnc_HDRS
     Tags.h
     Tools.h
     stdafx.h
-   )
+    )
 
 set( heekscad_SRCS
     ${HeeksCAD_SRC_DIR}/interface/Geom.cpp
@@ -171,7 +170,7 @@ set( heekscnc_SRCS
     Tags.cpp
     Tools.cpp
     stdafx.cpp
-   )
+    )
 
 add_library( heekscnc SHARED ${heekscnc_SRCS} ${heekscad_SRCS} ${platform_SRCS} )
 target_link_libraries( heekscnc ${wxWidgets_LIBRARIES}  ${OpenCASCADE_LIBRARIES} ${libheekstinyxml_LIBRARIES} )
