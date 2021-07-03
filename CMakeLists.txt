@@ -1,9 +1,5 @@
 project( HeeksCNC )
 cmake_minimum_required( VERSION 2.6 )
-if( ${CMAKE_VERSION} STREQUAL "2.8.2" )
-  # bug http://vtk.org/Bug/view.php?id=11020
-  message( WARNING "CMake/CPack version 2.8.2 will not create working .deb packages!")
-endif( ${CMAKE_VERSION} STREQUAL "2.8.2" )
 
 set( CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 
@@ -36,13 +32,24 @@ include_directories (
   ${OpenCASCADE_INCLUDE_DIR}
 )
 
+set(CPACK_PACKAGE_VERSION_MAJOR 0)
+set(CPACK_PACKAGE_VERSION_MINOR 5)
+set(CPACK_PACKAGE_VERSION_PATCH 1)
+
+if(DEFINED LIB_INSTALL_DIR)
+    set(LIB_INSTALL_DIR ${LIB_INSTALL_DIR})
+else(DEFINED LIB_INSTALL_DIR)
+    set(LIB_INSTALL_DIR lib)
+endif(DEFINED LIB_INSTALL_DIR)
+message(STATUS "LIB_INSTALL_DIR: " ${LIB_INSTALL_DIR})
+
 file( GLOB hcnc_py "${CMAKE_CURRENT_SOURCE_DIR}/*.py" "${CMAKE_CURRENT_SOURCE_DIR}/pycnc/*.py")
 list( REMOVE_ITEM hcnc_py
   "${CMAKE_CURRENT_SOURCE_DIR}/post.py"
   "${CMAKE_CURRENT_SOURCE_DIR}/POST_TEST.py"
   "${CMAKE_CURRENT_SOURCE_DIR}/STLTools.py"
 )
-install( FILES ${hcnc_py} DESTINATION lib/heekscnc )
+install( FILES ${hcnc_py} DESTINATION ${LIB_INSTALL_DIR}/heekscnc )
 
 if( CMAKE_SIZEOF_VOID_P EQUAL 4 )
   set(PKG_ARCH i386)

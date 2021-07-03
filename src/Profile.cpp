@@ -850,6 +850,10 @@ Python CProfile::AppendTextToProgram(bool finishing_pass)
 			python << m_profile_params.m_auto_roll_radius / theApp.m_program->m_units;
 			python << _T(")\n");
 		}
+		else
+		{
+			python << _T("roll_radius = None\n");
+		}
 	}
 
 	if(finishing_pass)
@@ -933,28 +937,28 @@ void CProfile::glCommands(bool select, bool marked, bool no_color)
 			// draw roll on point
 			if(!m_profile_params.m_auto_roll_on)
 			{
-				glColor3ub(0, 200, 200);
+				if(!no_color)glColor3ub(0, 200, 200);
 				glRasterPos3dv(m_profile_params.m_roll_on_point);
 				glBitmap(16, 16, 8, 8, 10.0, 0.0, cross16);
 			}
 			// draw roll off point
 			if(!m_profile_params.m_auto_roll_on)
 			{
-				glColor3ub(255, 128, 0);
+				if(!no_color)glColor3ub(255, 128, 0);
 				glRasterPos3dv(m_profile_params.m_roll_off_point);
 				glBitmap(16, 16, 8, 8, 10.0, 0.0, cross16);
 			}
 			// draw start point
 			if(m_profile_params.m_start_given)
 			{
-				glColor3ub(128, 0, 255);
+				if(!no_color)glColor3ub(128, 0, 255);
 				glRasterPos3dv(m_profile_params.m_start);
 				glBitmap(16, 16, 8, 8, 10.0, 0.0, cross16);
 			}
 			// draw end point
 			if(m_profile_params.m_end_given)
 			{
-				glColor3ub(200, 200, 0);
+				if(!no_color)glColor3ub(200, 200, 0);
 				glRasterPos3dv(m_profile_params.m_end);
 				glBitmap(16, 16, 8, 8, 10.0, 0.0, cross16);
 			}
@@ -1126,8 +1130,6 @@ void CProfile::CopyFrom(const HeeksObj* object)
 	{
 		CProfile *rhs = (CProfile *) object;
 
-		if ((m_tags != NULL) && (rhs->m_tags != NULL)) m_tags->CopyFrom( rhs->m_tags );
-
 		m_sketch = rhs->m_sketch;
 		m_profile_params = rhs->m_profile_params;
 		m_depth_op_params = rhs->m_depth_op_params;
@@ -1138,6 +1140,17 @@ void CProfile::CopyFrom(const HeeksObj* object)
 		m_operation_type = rhs->m_operation_type;
 		m_pattern = rhs->m_pattern;
 		m_surface = rhs->m_surface;
+		m_sketch = rhs->m_sketch;
+		m_depth_op_params = rhs->m_depth_op_params;
+		m_speed_op_params = rhs->m_speed_op_params;
+		m_comment = rhs->m_comment;
+		m_active = rhs->m_active;
+		m_tool_number = rhs->m_tool_number;
+		m_operation_type = rhs->m_operation_type;
+		m_pattern = rhs->m_pattern;
+		m_surface = rhs->m_surface;
+		m_title = rhs->m_title;
+		m_title_made_from_id = rhs->m_title_made_from_id;
 	}
 }
 

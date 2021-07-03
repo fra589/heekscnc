@@ -10,15 +10,15 @@
 #include "CNCConfig.h"
 #include "ProgramCanvas.h"
 #include "Program.h"
-#include "interface/PropertyInt.h"
+#include "interface/Picking.h"
 #include "interface/PropertyDouble.h"
+#include "interface/PropertyInt.h"
 #include "interface/PropertyLength.h"
 #include "interface/PropertyString.h"
 #include "tinyxml/tinyxml.h"
 #include "interface/Tool.h"
 #include "CTool.h"
 #include "Reselect.h"
-
 
 CSketchOp & CSketchOp::operator= ( const CSketchOp & rhs )
 {
@@ -57,9 +57,9 @@ void CSketchOp::glCommands(bool select, bool marked, bool no_color)
 		HeeksObj* sketch = heeksCAD->GetIDObject(SketchType, m_sketch);
 		if (sketch)
 		{
-			if (select)glPushName(sketch->GetIndex());
-			sketch->glCommands(select, marked, no_color);
-			if (select)glPopName();
+			if(!no_color)// test to see if this sketch gets drawn over the actual sketch
+				glColor3ub(0,0,255);
+			sketch->glCommands(false, marked, true); // don't mark the lines and arcs as selectable objects
 		}
 	}
 }
